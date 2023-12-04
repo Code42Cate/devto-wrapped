@@ -16,8 +16,7 @@
     "skipLibCheck": true,
     "strict": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@db/*": ["../../packages/database/*"]
+      "@/*": ["src/*"]
     }
   },
   "exclude": ["node_modules"]
