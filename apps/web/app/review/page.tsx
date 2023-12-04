@@ -1,6 +1,7 @@
 import UsernameForm from "@/components/form";
 import MonthsChart from "@/components/months";
 import { clsx } from "clsx";
+import { ArrowRightIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -365,6 +366,17 @@ export default async function Page({
           Want to check out your own stats?
           <UsernameForm />
         </div>
+      </div>
+
+      <div className="flex flex-row items-center justify-end w-full gap-2">
+        <Link
+          href="https://sliplane.io?utm_source=devtowrapped&utm_campagin=oss"
+          className="rounded-md bg-black text-white px-2 py-1 flex flex-row items-center text-sm"
+        >
+          <Image alt="" src="/logo.svg" width={16} height={16} />
+          Powered by
+          <span className="ml-1 font-semibold">Sliplane</span>
+        </Link>
       </div>
     </div>
   );
