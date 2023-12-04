@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@ui/components/button";
 import { Input } from "@ui/components/input";
+
 import { useState } from "react";
 
 import { useRouter } from "next/navigation";
@@ -13,7 +14,7 @@ export default function UsernameForm() {
   return (
     <div className="flex flex-row gap-2">
       <Input
-        placeholder="code42cate"
+        placeholder="your dev.to username"
         type="text"
         name="username"
         value={username}

@@ -53,7 +53,7 @@ type User = {
 
 async function getPosts(userId: string, page = 0) {
   const res = await fetch(
-    `https://dev.to/search/feed_content?per_page=100&page=${page}&user_id=${userId}&class_name=Article&sort_by=published_at&sort_direction=desc&approved=`
+    `https://dev.to/search/feed_content?per_page=100&page=${page}&user_id=${userId}&class_name=Article&sort_by=published_at&sort_direction=desc&approved=`,
   );
   if (!res.ok) {
     return undefined;
@@ -63,7 +63,7 @@ async function getPosts(userId: string, page = 0) {
 
   // filter by year
   const posts = data.result.filter(
-    (post: Article) => post.published_at_int >= 1672531200
+    (post: Article) => post.published_at_int >= 1672531200,
   );
 
   if (data.result.length === 100) {
@@ -75,7 +75,7 @@ async function getPosts(userId: string, page = 0) {
 
 async function getMentionedCommentCount(username: string) {
   const res = await fetch(
-    `https://dev.to/search/feed_content?per_page=60&page=0&class_name=Comment&search_fields=${username}`
+    `https://dev.to/search/feed_content?per_page=60&page=0&class_name=Comment&search_fields=${username}`,
   );
 
   if (!res.ok) {
@@ -89,7 +89,7 @@ async function getMentionedCommentCount(username: string) {
 
 async function getUserdata(username: string): Promise<User | undefined> {
   const res = await fetch(
-    `https://dev.to/api/users/by_username?url=${username}`
+    `https://dev.to/api/users/by_username?url=${username}`,
   );
   if (!res.ok) {
     return undefined;
@@ -136,7 +136,7 @@ export default async function Page({
 
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   const commentsCount = posts?.reduce((acc: number, post: Article) => {
@@ -152,7 +152,7 @@ export default async function Page({
     (acc: number, post: Article) => {
       return acc + post.reading_time * post.public_reactions_count;
     },
-    0
+    0,
   );
 
   const postsPerTag: Record<string, number> = posts?.reduce(
@@ -167,7 +167,7 @@ export default async function Page({
 
       return acc;
     },
-    {} as Record<string, number>
+    {} as Record<string, number>,
   );
 
   const postsPerMonth: Record<string, number> = posts?.reduce(
@@ -196,33 +196,33 @@ export default async function Page({
       October: 0,
       November: 0,
       December: 0,
-    }
+    },
   );
 
   const busiestMonth = Object.entries(postsPerMonth).find(
-    ([, count]) => count === Math.max(...Object.values(postsPerMonth))
+    ([, count]) => count === Math.max(...Object.values(postsPerMonth)),
   )?.[0];
 
   const reactionTypes = ["💖", "🦄", "🔥", "🤯", "🙌"];
 
   const favoriteTag = Object.entries(postsPerTag).find(
-    ([, count]) => count === Math.max(...Object.values(postsPerTag))
+    ([, count]) => count === Math.max(...Object.values(postsPerTag)),
   )?.[0];
 
   const bestPerformingTag = Object.entries(reactionsPerTag).find(
-    ([, count]) => count === Math.max(...Object.values(reactionsPerTag))
+    ([, count]) => count === Math.max(...Object.values(reactionsPerTag)),
   )?.[0];
 
   const bestPerformingPost = posts?.find(
     (post) =>
       post.public_reactions_count ===
-      Math.max(...posts.map((post) => post.public_reactions_count))
+      Math.max(...posts.map((post) => post.public_reactions_count)),
   );
 
   const mostControversialPost = posts?.find(
     (post) =>
       post.comments_count ===
-      Math.max(...posts.map((post) => post.comments_count))
+      Math.max(...posts.map((post) => post.comments_count)),
   );
 
   return (
@@ -284,7 +284,7 @@ export default async function Page({
               {Math.round(
                 totalEstimatedReadingTime > 60
                   ? totalEstimatedReadingTime / 60
-                  : totalEstimatedReadingTime
+                  : totalEstimatedReadingTime,
               )}
             </span>{" "}
             {totalEstimatedReadingTime > 60 ? "hours" : "minutes"} reading your
@@ -332,25 +332,29 @@ export default async function Page({
           )}
         </div>
 
-        <div className="border border-gray-300 rounded-xl shadow-sm w-full p-4 bg-white flex flex-col justify-between">
-          Your fans really loved this post: <br />
-          <a
-            className="underline underline-offset-2"
-            href={`https://dev.to${bestPerformingPost.path}`}
-          >
-            {bestPerformingPost.title}
-          </a>
-        </div>
+        {bestPerformingPost && (
+          <div className="border border-gray-300 rounded-xl shadow-sm w-full p-4 bg-white flex flex-col justify-between">
+            Your fans really loved this post: <br />
+            <a
+              className="underline underline-offset-2"
+              href={`https://dev.to${bestPerformingPost.path}`}
+            >
+              {bestPerformingPost.title}
+            </a>
+          </div>
+        )}
 
-        <div className="border border-gray-300 rounded-xl shadow-sm w-full p-4 bg-white flex flex-col gap-1">
-          <a
-            className="underline underline-offset-2"
-            href={`https://dev.to${mostControversialPost.path}`}
-          >
-            {mostControversialPost.title}
-          </a>{" "}
-          really got people talking! It&apos;s your most commented post.
-        </div>
+        {mostControversialPost && (
+          <div className="border border-gray-300 rounded-xl shadow-sm w-full p-4 bg-white flex flex-col gap-1">
+            <a
+              className="underline underline-offset-2"
+              href={`https://dev.to${mostControversialPost.path}`}
+            >
+              {mostControversialPost.title}
+            </a>{" "}
+            really got people talking! It&apos;s your most commented post.
+          </div>
+        )}
 
         <div className="border border-gray-300 rounded-xl shadow-sm w-full p-4 bg-white">
           <span className="font-semibold">{mentionsCount}</span> people
