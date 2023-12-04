@@ -1,0 +1,16 @@
+{
+  "name": "api",
+  "scripts": {
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.2.0",
+    "hono": "^3.8.2",
+    "database": "workspace:*"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*",
+    "tsx": "^3.12.2",
+    "typescript": "^4.5.3"
+  }
+}
