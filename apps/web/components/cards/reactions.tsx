@@ -11,7 +11,13 @@ export default function ReactionsCard({ count }: { count: number }) {
 
   return (
     <div className="border flex flex-col gap-2 border-gray-300 rounded-xl shadow-md w-full p-4 bg-white">
-      You got a total of {count} reactions on your posts!
+      <span>
+        You got a total of
+        <div className="text-2xl mx-1 font-bold bg-gradient-to-r from-gray-500 via-gray-800 to-black inline-block text-transparent bg-clip-text">
+          {count}
+        </div>{" "}
+        reactions on your posts!
+      </span>
       <div className="flex flex-row">
         {reactionTypes.map((reaction, idx) => (
           <button
