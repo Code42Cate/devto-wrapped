@@ -1,9 +1,7 @@
 "use client";
 import { Button } from "@ui/components/button";
 import { Input } from "@ui/components/input";
-
 import { useState } from "react";
-
 import { useRouter } from "next/navigation";
 
 export default function UsernameForm() {
@@ -24,7 +22,7 @@ export default function UsernameForm() {
       <Button
         onClick={() => {
           console.log(username);
-          push(`/review?username=${username}`);
+          push(`/?username=${username}`);
         }}
       >
         👀
