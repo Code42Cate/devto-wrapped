@@ -1,8 +1,10 @@
 export default function MentionsCard({ count }: { count: number }) {
   return (
-    <div className="border border-gray-300 rounded-xl shadow-sm w-full p-4 bg-white">
-      <span className="font-semibold">{count}</span> people mentioned you in
-      their comments.{" "}
+    <div className="border border-gray-300 rounded-xl shadow-md w-full p-4 bg-white">
+      <div className="text-3xl mr-1 font-bold bg-gradient-to-r from-gray-500 via-gray-800 to-black inline-block text-transparent bg-clip-text">
+        {count}
+      </div>
+      people mentioned you in their comments.{" "}
       {count > 0 ? (
         <span>You&apos;re basically famous now 🤩</span>
       ) : (

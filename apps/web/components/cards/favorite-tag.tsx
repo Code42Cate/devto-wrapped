@@ -6,7 +6,7 @@ export default function FavoriteTag({
   bestPerformingTag: string;
 }) {
   return (
-    <div className="border border-gray-300 rounded-xl shadow-sm w-full p-4 bg-white">
+    <div className="border border-gray-300 rounded-xl shadow-md w-full p-4 bg-white">
       {favoriteTag === bestPerformingTag ? (
         <>
           Your favorite and best performing tag was

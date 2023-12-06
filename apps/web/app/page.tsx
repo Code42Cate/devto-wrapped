@@ -4,7 +4,7 @@ import {
   getPosts,
   getUserdata,
 } from "@/actions/api";
-import BestPostCard from "@/components/cards/best-tag";
+import BestPostCard from "@/components/cards/best-post";
 import BusiestMonthCard from "@/components/cards/busiest-month";
 import CommentsCard from "@/components/cards/comments";
 import FavoriteTag from "@/components/cards/favorite-tag";
@@ -152,7 +152,7 @@ export default async function Page({
           alt={user.name}
           width={100}
           height={100}
-          className="rounded-full border border-gray-300 z-10 mt-14 shadow-sm"
+          className="rounded-full border border-gray-300 z-10 mt-14 shadow-md"
         />
       </div>
 
@@ -169,13 +169,12 @@ export default async function Page({
           busiestMonth={busiestMonth}
           postsPerMonth={postsPerMonth}
         />
+        <CommentsCard count={commentsCount} />
 
         <ReadingTimeCard
           readingTime={readingTime}
           totalEstimatedReadingTime={totalEstimatedReadingTime}
         />
-
-        <CommentsCard count={commentsCount} />
 
         <FavoriteTag
           favoriteTag={favoriteTag}
@@ -190,7 +189,7 @@ export default async function Page({
 
         <MentionsCard count={mentionsCount} />
 
-        <div className="border border-gray-300 rounded-xl shadow-sm w-full p-4 bg-white flex flex-col gap-2">
+        <div className="border border-gray-300 rounded-xl shadow-md w-full p-4 bg-white flex flex-col gap-2">
           Want to check out your own stats?
           <UsernameForm />
         </div>
