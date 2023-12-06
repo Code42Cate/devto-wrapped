@@ -1,10 +1,4 @@
-import {
-  Article,
-  getArticleCoverImage,
-  getMentionedCommentCount,
-  getPosts,
-  getUserdata,
-} from "@/actions/api";
+import { getMentionedCommentCount, getUserdata } from "@/actions/api";
 import BestPostCard from "@/components/cards/best-post";
 import BusiestMonthCard from "@/components/cards/busiest-month";
 import CommentsCard from "@/components/cards/comments";
@@ -17,6 +11,8 @@ import UsernameForm from "@/components/form";
 import Image from "next/image";
 import Link from "next/link";
 import MentionsCard from "@/components/cards/mentions";
+import EmptyUser from "@/components/empty-user";
+import { getStats } from "@/actions/stats";
 
 export default async function Page({
   searchParams: { username },
@@ -28,139 +24,12 @@ export default async function Page({
   }
 
   const user = await getUserdata(username);
-
   if (!user) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen max-w-xl mx-auto gap-4">
-        <h1 className="text-4xl font-bold">This user could not be found 🫠</h1>
-        <div className="border border-gray-300 rounded-xl shadow-md w-full p-4 bg-white flex flex-col gap-2">
-          <span>
-            Try something else, or{" "}
-            <Link
-              href="/?username=code42cate"
-              className="underline underline-offset-1"
-            >
-              check out my own wrapped
-            </Link>
-          </span>
-          <UsernameForm />
-        </div>
-      </div>
-    );
+    return <EmptyUser />;
   }
 
-  const posts = await getPosts(user.id.toString());
+  const stats = await getStats(user.id.toString());
   const mentionsCount = await getMentionedCommentCount(user.username);
-
-  const postCount = posts?.length ?? 0;
-
-  const reactionsCount = posts?.reduce((acc: number, post: Article) => {
-    return acc + post.public_reactions_count;
-  }, 0);
-
-  const reactionsPerTag: Record<string, number> = posts?.reduce(
-    (acc: Record<string, number>, post: Article) => {
-      post.tag_list.forEach((tag) => {
-        if (acc[tag]) {
-          acc[tag] += post.public_reactions_count;
-        } else {
-          acc[tag] = post.public_reactions_count;
-        }
-      });
-
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
-
-  const commentsCount = posts?.reduce((acc: number, post: Article) => {
-    return acc + post.comments_count;
-  }, 0);
-
-  const readingTime = posts?.reduce((acc: number, post: Article) => {
-    return acc + post.reading_time;
-  }, 0);
-
-  // reading_time times reactions_count per post, summed up
-  const totalEstimatedReadingTime = posts?.reduce(
-    (acc: number, post: Article) => {
-      return acc + post.reading_time * post.public_reactions_count;
-    },
-    0,
-  );
-
-  const postsPerTag: Record<string, number> = posts?.reduce(
-    (acc: Record<string, number>, post: Article) => {
-      post.tag_list.forEach((tag) => {
-        if (acc[tag]) {
-          acc[tag] += 1;
-        } else {
-          acc[tag] = 1;
-        }
-      });
-
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
-
-  const postsPerMonth: Record<string, number> = posts?.reduce(
-    (acc: Record<string, number>, post: Article) => {
-      const date = new Date(post.published_at_int * 1000);
-      const month = date.toLocaleString("default", { month: "long" });
-
-      if (acc[month]) {
-        acc[month] += 1;
-      } else {
-        acc[month] = 1;
-      }
-
-      return acc;
-    },
-    {
-      January: 0,
-      February: 0,
-      March: 0,
-      April: 0,
-      May: 0,
-      June: 0,
-      July: 0,
-      August: 0,
-      September: 0,
-      October: 0,
-      November: 0,
-      December: 0,
-    },
-  );
-
-  const busiestMonth = Object.entries(postsPerMonth).find(
-    ([, count]) => count === Math.max(...Object.values(postsPerMonth)),
-  )?.[0];
-
-  const favoriteTag = Object.entries(postsPerTag).find(
-    ([, count]) => count === Math.max(...Object.values(postsPerTag)),
-  )?.[0];
-
-  const bestPerformingTag = Object.entries(reactionsPerTag).find(
-    ([, count]) => count === Math.max(...Object.values(reactionsPerTag)),
-  )?.[0];
-
-  const bestPerformingPost = posts?.find(
-    (post) =>
-      post.public_reactions_count ===
-      Math.max(...posts.map((post) => post.public_reactions_count)),
-  );
-
-  const mostControversialPost = posts?.find(
-    (post) =>
-      post.comments_count ===
-      Math.max(...posts.map((post) => post.comments_count)),
-  );
-
-  const bestPostCoverImage = await getArticleCoverImage(bestPerformingPost?.id);
-  const controversialCoverImage = await getArticleCoverImage(
-    mostControversialPost?.id,
-  );
 
   return (
     <div className="flex flex-col items-center py-4 gap-4 max-w-xl mx-auto px-2 overflow-y-auto">
@@ -183,37 +52,38 @@ export default async function Page({
       </h1>
 
       <div className="grid grid-cols-2 gap-2 w-full text-sm text-gray-800">
-        <PublishedPostsCard count={postCount} />
+        <PublishedPostsCard count={stats.postCount} />
 
-        <ReactionsCard count={reactionsCount} />
+        <ReactionsCard count={stats.reactionsCount} />
 
         <BusiestMonthCard
-          busiestMonth={busiestMonth}
-          postsPerMonth={postsPerMonth}
+          busiestMonth={stats.busiestMonth}
+          postsPerMonth={stats.postsPerMonth}
         />
-        <CommentsCard count={commentsCount} />
+
+        <CommentsCard count={stats.commentsCount} />
 
         <ReadingTimeCard
-          readingTime={readingTime}
-          totalEstimatedReadingTime={totalEstimatedReadingTime}
+          readingTime={stats.readingTime}
+          totalEstimatedReadingTime={stats.totalEstimatedReadingTime}
         />
 
         <FavoriteTag
-          favoriteTag={favoriteTag}
-          bestPerformingTag={bestPerformingTag}
+          favoriteTag={stats.favoriteTag}
+          bestPerformingTag={stats.bestPerformingTag}
         />
 
-        {bestPerformingPost && (
+        {stats.bestPerformingPost && (
           <BestPostCard
-            post={bestPerformingPost}
-            coverImage={bestPostCoverImage}
+            post={stats.bestPerformingPost}
+            coverImage={stats.bestPostCoverImage}
           />
         )}
 
-        {mostControversialPost && (
+        {stats.mostControversialPost && (
           <ControversialPostCard
-            post={mostControversialPost}
-            coverImage={controversialCoverImage}
+            post={stats.mostControversialPost}
+            coverImage={stats.controversialCoverImage}
           />
         )}
 
