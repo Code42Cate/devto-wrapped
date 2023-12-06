@@ -10,6 +10,7 @@ const inter = Poppins({
 
 export const metadata: Metadata = {
   title: "2023 dev.to wrapped",
+  metadataBase: new URL("https://devto-wrapped.sliplane.app"),
   description: "Get your dev.to wrapped for 2023!",
 };
 
