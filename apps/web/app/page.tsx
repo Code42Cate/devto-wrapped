@@ -1,5 +1,6 @@
 import {
   Article,
+  getArticleCoverImage,
   getMentionedCommentCount,
   getPosts,
   getUserdata,
@@ -140,6 +141,11 @@ export default async function Page({
       Math.max(...posts.map((post) => post.comments_count)),
   );
 
+  const bestPostCoverImage = await getArticleCoverImage(bestPerformingPost?.id);
+  const controversialCoverImage = await getArticleCoverImage(
+    mostControversialPost?.id,
+  );
+
   return (
     <div className="flex flex-col items-center py-4 gap-4 max-w-xl mx-auto px-2 overflow-y-auto">
       <div className="relative flex flex-col items-center">
@@ -181,10 +187,18 @@ export default async function Page({
           bestPerformingTag={bestPerformingTag}
         />
 
-        {bestPerformingPost && <BestPostCard post={bestPerformingPost} />}
+        {bestPerformingPost && (
+          <BestPostCard
+            post={bestPerformingPost}
+            coverImage={bestPostCoverImage}
+          />
+        )}
 
         {mostControversialPost && (
-          <ControversialPostCard post={mostControversialPost} />
+          <ControversialPostCard
+            post={mostControversialPost}
+            coverImage={controversialCoverImage}
+          />
         )}
 
         <MentionsCard count={mentionsCount} />

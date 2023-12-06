@@ -96,3 +96,20 @@ export async function getUserdata(username: string): Promise<User | undefined> {
 
   return data as User;
 }
+
+export async function getArticleCoverImage(
+  articleId: number,
+): Promise<string | undefined> {
+  if (!articleId) {
+    return undefined;
+  }
+
+  const res = await fetch(`https://dev.to/api/articles/${articleId}`);
+  if (!res.ok) {
+    return undefined;
+  }
+
+  const data = await res.json();
+
+  return data.cover_image as string;
+}
