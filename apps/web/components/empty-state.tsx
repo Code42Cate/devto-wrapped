@@ -1,10 +1,10 @@
 import Link from "next/link";
 import UsernameForm from "./form";
 
-export default function EmptyUser() {
+export default function EmptyState({ message }: { message: string }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen max-w-xl mx-auto gap-4">
-      <h1 className="text-4xl font-bold">This user could not be found 🫠</h1>
+      <h1 className="text-4xl font-bold">{message}</h1>
       <div className="border border-gray-300 rounded-xl shadow-md w-full p-4 bg-white flex flex-col gap-2">
         <span>
           Try something else, or{" "}

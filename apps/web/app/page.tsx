@@ -11,7 +11,7 @@ import UsernameForm from "@/components/form";
 import Image from "next/image";
 import Link from "next/link";
 import MentionsCard from "@/components/cards/mentions";
-import EmptyUser from "@/components/empty-user";
+import EmptyUser from "@/components/empty-state";
 import { getStats } from "@/actions/stats";
 
 export default async function Page({
@@ -25,11 +25,15 @@ export default async function Page({
 
   const user = await getUserdata(username);
   if (!user) {
-    return <EmptyUser />;
+    return <EmptyUser message="This user could not be found 🫠" />;
   }
 
   const stats = await getStats(user.id.toString());
   const mentionsCount = await getMentionedCommentCount(user.username);
+
+  if (stats.postCount === 0) {
+    return <EmptyUser message="This user has no posts 🫠" />;
+  }
 
   return (
     <div className="flex flex-col items-center py-4 gap-4 max-w-xl mx-auto px-2 overflow-y-auto">
