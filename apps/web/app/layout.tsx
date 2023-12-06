@@ -17,6 +17,8 @@ export default function RootLayout({
         <body
           className={`bg-gray-100 antialiased ${inter.className} font-sans`}
         >
+          <div className="backdrop" />
+
           {children}
         </body>
       </PlausibleProvider>

@@ -152,7 +152,7 @@ export default async function Page({
           alt={user.name}
           width={100}
           height={100}
-          className="rounded-full border border-gray-300 z-10 mt-14 shadow-md"
+          className="rounded-full border-2 border-gray-300 z-10 mt-14 shadow-md"
         />
       </div>
 
@@ -200,7 +200,7 @@ export default async function Page({
           href="https://sliplane.io?utm_source=devtowrapped&utm_campagin=oss"
           className="rounded-md bg-black text-white px-2 py-1 flex flex-row items-center text-sm"
         >
-          <Image alt="" src="/logo.svg" width={16} height={16} />
+          <Image alt="sliplane logo" src="/logo.svg" width={16} height={16} />
           Powered by
           <span className="ml-1 font-semibold">Sliplane</span>
         </Link>
