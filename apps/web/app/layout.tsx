@@ -1,11 +1,18 @@
 import "@ui/styles/globals.css";
 import { Poppins } from "next/font/google";
 import PlausibleProvider from "next-plausible";
+import { Metadata } from "next";
 
 const inter = Poppins({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
 });
+
+export const metadata: Metadata = {
+  title: "2023 dev.to wrapped",
+  description: "Get your dev.to wrapped for 2023!",
+};
+
 export default function RootLayout({
   children,
 }: {
