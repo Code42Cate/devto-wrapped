@@ -4,7 +4,7 @@ export default function PublishedPostsCard({ count }: { count: number }) {
       <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text">
         {count}
       </div>
-      Posts Published 🎉
+      <div className="text-lg">Posts Published 🎉</div>
     </div>
   );
 }
