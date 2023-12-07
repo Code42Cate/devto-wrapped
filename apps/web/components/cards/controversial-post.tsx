@@ -9,7 +9,7 @@ export default function ControversialPostCard({
   coverImage: string;
 }) {
   return (
-    <div className="border border-gray-300 rounded-xl shadow-md w-full p-4 bg-white flex flex-col gap-1">
+    <div className="flex w-full flex-col gap-1 rounded-xl border border-gray-300 bg-white p-4 shadow-md">
       <Image
         src={coverImage}
         alt={post.title}

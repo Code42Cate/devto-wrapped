@@ -8,7 +8,7 @@ export default function BusiestMonthCard({
   busiestMonth: string;
 }) {
   return (
-    <div className="border flex flex-col justify-between border-gray-300 rounded-xl shadow-md w-full p-4 bg-white h-40">
+    <div className="flex h-40 w-full flex-col justify-between rounded-xl border border-gray-300 bg-white p-4 shadow-md">
       <span>
         Your busiest month was{" "}
         <span className="font-semibold text-green-500">{busiestMonth}</span>

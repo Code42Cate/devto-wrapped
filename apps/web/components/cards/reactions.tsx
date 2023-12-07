@@ -10,10 +10,10 @@ export default function ReactionsCard({ count }: { count: number }) {
   });
 
   return (
-    <div className="border flex flex-col gap-2 border-gray-300 rounded-xl shadow-md w-full p-4 bg-white">
+    <div className="flex w-full flex-col gap-2 rounded-xl border border-gray-300 bg-white p-4 shadow-md">
       <span>
         You got a total of
-        <div className="text-2xl mx-1 font-bold bg-gradient-to-r from-gray-500 via-gray-800 to-black inline-block text-transparent bg-clip-text">
+        <div className="mx-1 inline-block bg-gradient-to-r from-gray-500 via-gray-800 to-black bg-clip-text text-2xl font-bold text-transparent">
           {count}
         </div>{" "}
         reactions on your posts!
@@ -26,7 +26,7 @@ export default function ReactionsCard({ count }: { count: number }) {
             disabled={isAnimating}
             key={reaction}
             className={clsx({
-              "rounded-full bg-gray-100 border-white border h-5 flex flex-col items-center justify-center w-5 z-10":
+              "z-10 flex h-5 w-5 flex-col items-center justify-center rounded-full border border-white bg-gray-100":
                 true,
               "-ml-1.5": idx !== 0,
             })}

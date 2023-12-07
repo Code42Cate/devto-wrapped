@@ -6,13 +6,13 @@ export default function FavoriteTag({
   bestPerformingTag: string;
 }) {
   return (
-    <div className="border flex flex-col justify-center border-gray-300 rounded-xl shadow-md w-full p-4 bg-white">
+    <div className="flex w-full flex-col justify-center rounded-xl border border-gray-300 bg-white p-4 shadow-md">
       <div>
         {favoriteTag === bestPerformingTag ? (
           <>
             Your favorite and best performing tag was
             <a
-              className="underline underline-offset-2 ml-1"
+              className="ml-1 underline underline-offset-2"
               rel="noopener noreferrer"
               target="_blank"
               href={`https://dev.to/t/${favoriteTag}`}
@@ -25,7 +25,7 @@ export default function FavoriteTag({
           <>
             Although your favorite tag was
             <a
-              className="underline underline-offset-2 ml-1"
+              className="ml-1 underline underline-offset-2"
               rel="noopener noreferrer"
               target="_blank"
               href={`https://dev.to/t/${favoriteTag}`}
@@ -34,7 +34,7 @@ export default function FavoriteTag({
             </a>
             , your best performing tag was
             <a
-              className="underline underline-offset-2 ml-1"
+              className="ml-1 underline underline-offset-2"
               href={`https://dev.to/t/${bestPerformingTag}`}
             >
               #{bestPerformingTag}

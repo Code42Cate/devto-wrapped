@@ -9,7 +9,7 @@ export default function BestPostCard({
   coverImage: string;
 }) {
   return (
-    <div className="border flex flex-col justify-between gap-2 border-gray-300 rounded-xl shadow-md w-full p-4 bg-white">
+    <div className="flex w-full flex-col justify-between gap-2 rounded-xl border border-gray-300 bg-white p-4 shadow-md">
       Your fans really loved this post: <br />
       <Image
         src={coverImage}
