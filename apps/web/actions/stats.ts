@@ -5,18 +5,17 @@ export async function getStats(userId: string) {
 
   const postCount = posts?.length ?? 0;
 
-  const reactionsCount = posts?.reduce((acc: number, post: Article) => {
-    return acc + post.public_reactions_count;
-  }, 0);
+  const reactionsCount = posts?.reduce(
+    (acc: number, post: Article) => acc + post.public_reactions_count,
+    0,
+  );
 
   const reactionsPerTag: Record<string, number> = posts?.reduce(
     (acc: Record<string, number>, post: Article) => {
       post.tag_list.forEach((tag) => {
-        if (acc[tag]) {
-          acc[tag] += post.public_reactions_count;
-        } else {
-          acc[tag] = post.public_reactions_count;
-        }
+        acc[tag] = acc[tag]
+          ? acc[tag] + post.public_reactions_count
+          : post.public_reactions_count;
       });
 
       return acc;
@@ -24,32 +23,28 @@ export async function getStats(userId: string) {
     {} as Record<string, number>,
   );
 
-  const commentsCount = posts?.reduce((acc: number, post: Article) => {
-    return acc + post.comments_count;
-  }, 0);
+  const commentsCount = posts?.reduce(
+    (acc: number, post: Article) => acc + post.comments_count,
+    0,
+  );
 
-  const readingTime = posts?.reduce((acc: number, post: Article) => {
-    return acc + post.reading_time;
-  }, 0);
+  const readingTime = posts?.reduce(
+    (acc: number, post: Article) => acc + post.reading_time,
+    0,
+  );
 
   // reading_time times reactions_count per post, summed up
   const totalEstimatedReadingTime = posts?.reduce(
-    (acc: number, post: Article) => {
-      return acc + post.reading_time * post.public_reactions_count;
-    },
+    (acc: number, post: Article) =>
+      acc + post.reading_time * post.public_reactions_count,
     0,
   );
 
   const postsPerTag: Record<string, number> = posts?.reduce(
     (acc: Record<string, number>, post: Article) => {
       post.tag_list.forEach((tag) => {
-        if (acc[tag]) {
-          acc[tag] += 1;
-        } else {
-          acc[tag] = 1;
-        }
+        acc[tag] = acc[tag] ? acc[tag] + 1 : 1;
       });
-
       return acc;
     },
     {} as Record<string, number>,
@@ -59,13 +54,7 @@ export async function getStats(userId: string) {
     (acc: Record<string, number>, post: Article) => {
       const date = new Date(post.published_at_int * 1000);
       const month = date.toLocaleString("default", { month: "long" });
-
-      if (acc[month]) {
-        acc[month] += 1;
-      } else {
-        acc[month] = 1;
-      }
-
+      acc[month] = acc[month] ? acc[month] + 1 : 1;
       return acc;
     },
     {
