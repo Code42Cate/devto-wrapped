@@ -111,5 +111,5 @@ export async function getArticleCoverImage(
 
   const data = await res.json();
 
-  return data.cover_image as string;
+  return data.cover_image ?? (data.social_image as string);
 }
